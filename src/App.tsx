@@ -14,6 +14,7 @@ import BlogPost from './pages/BlogPost';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import PostEditor from './pages/admin/PostEditor';
+import TeamEditor from './pages/admin/TeamEditor';
 
 function App() {
   return (
@@ -64,6 +65,22 @@ function App() {
             element={
               <RequireAuth>
                 <PostEditor />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/team/new"
+            element={
+              <RequireAuth>
+                <TeamEditor />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/team/:id/edit"
+            element={
+              <RequireAuth>
+                <TeamEditor />
               </RequireAuth>
             }
           />

@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { getAllPostsAdmin, deletePost } from '../../lib/posts';
 import { getAllMessages } from '../../lib/messages';
-import type { Post } from '../../types';
+import { getTeamMembers, deleteTeamMember } from '../../lib/team';
+import type { Post, TeamMember } from '../../types';
 import type { Message } from '../../lib/messages';
 
 const AdminDashboard = () => {
@@ -12,12 +13,14 @@ const AdminDashboard = () => {
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [tab, setTab] = useState<'posts' | 'messages'>('posts');
+  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [tab, setTab] = useState<'posts' | 'messages' | 'team'>('posts');
 
   useEffect(() => {
     if (!token) return;
     getAllPostsAdmin(token).then(setPosts).catch(console.error);
     getAllMessages(token).then(setMessages).catch(console.error);
+    getTeamMembers().then(setTeam).catch(console.error);
   }, [token]);
 
   const handleDelete = async (id: string) => {
@@ -26,6 +29,14 @@ const AdminDashboard = () => {
 
     await deletePost(id, token);
     setPosts(posts.filter((p) => p._id !== id));
+  };
+
+  const handleDeleteTeamMember = async (id: string) => {
+    if (!token) return;
+    if (!confirm('Remove this team member?')) return;
+
+    await deleteTeamMember(id, token);
+    setTeam(team.filter((m) => m._id !== id));
   };
 
   const handleLogout = () => {
@@ -57,6 +68,12 @@ const AdminDashboard = () => {
             className={`px-4 py-2 rounded ${tab === 'messages' ? 'bg-maroon text-white' : 'bg-white border'}`}
           >
             Messages {unreadCount > 0 && `(${unreadCount} new)`}
+          </button>
+          <button
+            onClick={() => setTab('team')}
+            className={`px-4 py-2 rounded ${tab === 'team' ? 'bg-maroon text-white' : 'bg-white border'}`}
+          >
+            Team
           </button>
         </div>
 
@@ -106,6 +123,48 @@ const AdminDashboard = () => {
                 <p className="text-sm text-gray-700 mt-1">{msg.message}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === 'team' && (
+          <div>
+            <Link
+              to="/admin/team/new"
+              className="inline-block mb-4 bg-maroon text-white px-4 py-2 rounded font-semibold"
+            >
+              + Add Team Member
+            </Link>
+            <div className="bg-white rounded shadow divide-y">
+              {team.length === 0 && <p className="p-4 text-gray-500">No team members yet.</p>}
+              {team.map((member) => (
+                <div key={member._id} className="p-4 flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    {member.photo && (
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    )}
+                    <div>
+                      <p className="font-semibold">{member.name}</p>
+                      <p className="text-xs text-gray-400">{member.title}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <Link to={`/admin/team/${member._id}/edit`} className="text-maroon underline text-sm">
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteTeamMember(member._id)}
+                      className="text-red-600 underline text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

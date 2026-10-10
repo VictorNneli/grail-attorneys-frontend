@@ -1,5 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { practiceAreas } from '../data/practiceAreas';
+import RecentPosts from '../components/RecentPosts';
+import type { DetailBlock } from '../types';
 
 const PracticeAreaDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -18,6 +20,9 @@ const PracticeAreaDetail = () => {
     );
   }
 
+  const blocks: DetailBlock[] =
+    area.details && area.details.length > 0 ? area.details : [area.description];
+
   return (
     <div>
       {/* Banner */}
@@ -30,16 +35,39 @@ const PracticeAreaDetail = () => {
         </div>
       </section>
 
-      {/* Content */}
-      <section className="px-8 py-16 max-w-3xl mx-auto">
-        <p className="text-gray-700 text-lg mb-8">{area.description}</p>
+      {/* Content + Recent Posts */}
+      <section className="px-8 py-16 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_16rem] gap-12">
+        <div>
+          <div className="space-y-5 mb-10">
+            {blocks.map((block, index) =>
+              typeof block === 'string' ? (
+                <p key={index} className="text-gray-700 text-lg leading-relaxed">
+                  {block}
+                </p>
+              ) : (
+                <div key={index}>
+                  {block.intro && (
+                    <p className="text-gray-700 text-lg leading-relaxed mb-3">{block.intro}</p>
+                  )}
+                  <ul className="list-disc pl-6 space-y-2 text-gray-700 text-lg leading-relaxed">
+                    {block.items.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            )}
+          </div>
 
-        <Link
-          to="/contact"
-          className="inline-block bg-maroon text-white px-6 py-3 rounded font-semibold hover:opacity-90"
-        >
-          Speak to an Attorney
-        </Link>
+          <Link
+            to="/contact"
+            className="inline-block bg-maroon text-white px-6 py-3 rounded font-semibold hover:opacity-90"
+          >
+            Speak to an Attorney
+          </Link>
+        </div>
+
+        <RecentPosts />
       </section>
     </div>
   );
