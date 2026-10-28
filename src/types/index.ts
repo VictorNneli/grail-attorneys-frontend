@@ -1,6 +1,9 @@
 import type { LucideIcon } from 'lucide-react';
 
-export type DetailBlock = string | { intro?: string; items: string[] };
+export type DetailBlock =
+  | string
+  | { intro?: string; items: string[] }
+  | { emphasis: string };
 
 export interface PracticeArea {
   slug: string;

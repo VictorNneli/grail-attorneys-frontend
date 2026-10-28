@@ -87,13 +87,19 @@ const TeamEditor = () => {
             rows={3}
             className="w-full border rounded px-4 py-2"
           />
-          <input
-            type="text"
-            placeholder="Photo URL (optional, for now)"
-            value={photo}
-            onChange={(e) => setPhoto(e.target.value)}
-            className="w-full border rounded px-4 py-2"
-          />
+          ```tsx
+<input
+  type="file"
+  accept="image/*"
+  onChange={(e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPhoto(URL.createObjectURL(file));
+    }
+  }}
+  className="w-full border rounded px-4 py-2"
+/>
+```
 
           {error && <p className="text-red-600 text-sm">{error}</p>}
 

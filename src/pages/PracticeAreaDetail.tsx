@@ -38,13 +38,25 @@ const PracticeAreaDetail = () => {
       {/* Content + Recent Posts */}
       <section className="px-8 py-16 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_16rem] gap-12">
         <div>
-          <div className="space-y-5 mb-10">
-            {blocks.map((block, index) =>
-              typeof block === 'string' ? (
-                <p key={index} className="text-gray-700 text-lg leading-relaxed">
-                  {block}
-                </p>
-              ) : (
+          <div className="space-y-5 mb-10 text-justify">
+            {blocks.map((block, index) => {
+              if (typeof block === 'string') {
+                return (
+                  <p key={index} className="text-gray-700 text-lg leading-relaxed">
+                    {block}
+                  </p>
+                );
+              }
+
+              if ('emphasis' in block) {
+                return (
+                  <p key={index} className="text-xl font-bold text-gray-900 text-left">
+                    {block.emphasis}
+                  </p>
+                );
+              }
+
+              return (
                 <div key={index}>
                   {block.intro && (
                     <p className="text-gray-700 text-lg leading-relaxed mb-3">{block.intro}</p>
@@ -55,8 +67,8 @@ const PracticeAreaDetail = () => {
                     ))}
                   </ul>
                 </div>
-              )
-            )}
+              );
+            })}
           </div>
 
           <Link

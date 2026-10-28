@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { submitContactForm } from '../lib/contact';
+import PageBanner from '../components/PageBanner';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -33,14 +34,11 @@ const Contact = () => {
 
   return (
     <div>
-      <section className="bg-cream px-8 py-16 text-center">
-        <h1 className="font-serif text-4xl font-bold text-maroon mb-4">
-          Contact Grail Attorneys
-        </h1>
-        <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-          Consult with seasoned legal counsel at our Umuahia chambers.
-        </p>
-      </section>
+      <PageBanner
+        imageSlug="corporate-commercial"
+        title="Contact Grail Attorneys"
+        subtitle="Consult with seasoned legal counsel at our Umuahia chambers."
+      />
 
       <section className="px-8 py-16 max-w-xl mx-auto">
         {status === 'success' ? (

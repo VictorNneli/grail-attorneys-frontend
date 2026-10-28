@@ -1,25 +1,11 @@
 import { Link } from 'react-router-dom';
 import { practiceAreas } from '../data/practiceAreas';
+import HeroCarousel from '../components/HeroCarousel';
 
 const Home = () => {
   return (
     <div>
-      {/* Hero */}
-      <section className="bg-cream px-8 py-20 text-center">
-        <h1 className="font-serif text-4xl md:text-5xl font-bold text-maroon mb-4">
-          Guiding Your Path To Freedom and Justice
-        </h1>
-        <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-8">
-          Grail Attorneys is a full-service law firm based in Umuahia, Abia State,
-          committed to authoritative advocacy and unwavering client representation.
-        </p>
-        <Link
-          to="/contact"
-          className="inline-block bg-maroon text-white px-6 py-3 rounded font-semibold hover:opacity-90"
-        >
-          Book a Consultation
-        </Link>
-      </section>
+      <HeroCarousel />
 
       {/* Practice Areas preview */}
       <section className="px-8 py-16">
