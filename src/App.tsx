@@ -15,6 +15,7 @@ import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import PostEditor from './pages/admin/PostEditor';
 import TeamEditor from './pages/admin/TeamEditor';
+import AdminAccount from './pages/admin/AdminAccount';
 
 function App() {
   return (
@@ -49,6 +50,14 @@ function App() {
             element={
               <RequireAuth>
                 <AdminDashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/account"
+            element={
+              <RequireAuth>
+                <AdminAccount />
               </RequireAuth>
             }
           />

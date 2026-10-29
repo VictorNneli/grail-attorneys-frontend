@@ -50,9 +50,14 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-maroon text-white px-8 py-4 flex justify-between items-center">
         <h1 className="font-serif text-xl font-bold">Grail Attorneys Admin</h1>
-        <button onClick={handleLogout} className="text-sm underline">
-          Log Out
-        </button>
+          <div className="flex items-center gap-4 text-sm">
+           <Link to="/admin/account" className="underline">
+             Account
+           </Link>
+           <button onClick={handleLogout} className="underline">
+             Log Out
+           </button>
+          </div>
       </header>
 
       <div className="px-8 py-6">

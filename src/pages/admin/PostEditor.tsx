@@ -4,6 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useAuth } from '../../context/AuthContext';
 import { createPost, updatePost, getPostByIdAdmin } from '../../lib/posts';
+import ImageUpload from '../../components/ImageUpload';
 
 const PostEditor = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,7 +14,6 @@ const PostEditor = () => {
 
   const [title, setTitle] = useState('');
   const [coverImage, setCoverImage] = useState('');
-  const [status, setStatus] = useState<'draft' | 'published'>('draft');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -28,7 +28,6 @@ const PostEditor = () => {
     getPostByIdAdmin(id, token).then((post) => {
       setTitle(post.title);
       setCoverImage(post.coverImage || '');
-      setStatus(post.status);
       editor.commands.setContent(post.body);
     });
   }, [isEditing, id, token, editor]);
@@ -77,12 +76,10 @@ const PostEditor = () => {
           className="w-full border rounded px-4 py-2 mb-4 text-xl font-serif"
         />
 
-        <input
-          type="text"
-          placeholder="Cover image URL (optional, for now)"
+        <ImageUpload
+          label="Cover image (optional)"
           value={coverImage}
-          onChange={(e) => setCoverImage(e.target.value)}
-          className="w-full border rounded px-4 py-2 mb-4 text-sm"
+          onChange={setCoverImage}
         />
 
         {/* Toolbar */}

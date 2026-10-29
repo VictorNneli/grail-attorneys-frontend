@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { createTeamMember, updateTeamMember, getTeamMembers } from '../../lib/team';
+import ImageUpload from '../../components/ImageUpload';
 
 const TeamEditor = () => {
   const { id } = useParams<{ id: string }>();
@@ -87,19 +88,13 @@ const TeamEditor = () => {
             rows={3}
             className="w-full border rounded px-4 py-2"
           />
-          ```tsx
-<input
-  type="file"
-  accept="image/*"
-  onChange={(e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPhoto(URL.createObjectURL(file));
-    }
-  }}
-  className="w-full border rounded px-4 py-2"
-/>
-```
+
+          <ImageUpload
+            label="Photo (optional)"
+            value={photo}
+            onChange={setPhoto}
+            shape="round"
+          />
 
           {error && <p className="text-red-600 text-sm">{error}</p>}
 

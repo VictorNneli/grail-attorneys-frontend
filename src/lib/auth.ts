@@ -11,3 +11,17 @@ export const login = (email: string, password: string) => {
     body: { email, password }
   });
 };
+
+interface UpdateAccountInput {
+  currentPassword: string;
+  newEmail?: string;
+  newPassword?: string;
+}
+
+export const updateAccount = (data: UpdateAccountInput, token: string) => {
+  return apiRequest<{ message: string }>('/auth/account', {
+    method: 'PUT',
+    body: data,
+    token
+  });
+};
